@@ -1,0 +1,52 @@
+//使用 proto3 语法 ,未指定则使用proto2
+syntax = "proto3";
+
+// 是否生成equals和hashcode方法 true:生成 false:默认值，不生成
+option java_generate_equals_and_hash = true;
+
+// 生成多个class文件
+option java_multiple_files = true;
+
+//生成 proto 文件所在包路径
+package com.zpb.protobuf.message.hello;
+
+message Hello {
+
+  int64 id = 1;
+  int32 age = 2;
+  string name = 3;
+  string address = 4;
+
+}
+
+// 请求体
+message HelloRequest {
+
+  optional int64 id = 5;
+  optional int32 age = 6;
+  optional string name = 7;
+  optional string address = 8;
+
+}
+
+// 响应体
+message HelloResponse {
+  string message = 9;
+}
+
+// rpc 接口
+service HelloService {
+
+  // 普通 rpc 接口
+  rpc sayHello1(HelloRequest) returns (HelloResponse);
+
+  // 服务器端流传输的RPC
+  rpc sayHello2(HelloRequest) returns (stream HelloResponse);
+
+  // 客户端流传输的RPC
+  rpc sayHello3(stream HelloRequest) returns (HelloResponse);
+
+  // 双向流RPC
+  rpc sayHello4(stream HelloRequest) returns (stream HelloResponse);
+
+}
